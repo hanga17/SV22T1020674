@@ -1,16 +1,17 @@
-﻿@{
-}
+﻿@model SV22T1020674.Models.Catalog.ProductPhoto
+
 @section PageToolBar {
     <button type="submit" form="formEdit" class="btn btn-primary">
         <i class="bi bi-save"></i>
         Lưu ảnh
     </button>
 
-    <a href="~/Product/Edit/123#photos" class="btn btn-secondary ms-1">
+    <a href="~/Product/Edit/@Model.ProductID#photos" class="btn btn-secondary ms-1">
         <i class="bi bi-arrow-left"></i>
         Quay lại
     </a>
 }
+
 <div class="row justify-content-center">
     <div class="col-12">
         <div class="card card-outline card-info">
@@ -21,47 +22,57 @@
             <div class="card-body">
                 <form id="formEdit" method="post" enctype="multipart/form-data">
 
+                    <!-- hidden -->
+                    <input type="hidden" name="PhotoID" value="@Model.PhotoID" />
+                    <input type="hidden" name="ProductID" value="@Model.ProductID" />
+
+                    <!-- upload -->
                     <div class="row mb-3 align-items-center">
                         <label class="col-sm-3 fw-semibold">Ảnh</label>
                         <div class="col-sm-9">
                             <input type="file"
-                                   name="Photo"
+                                   name="uploadPhoto"
                                    class="form-control"
                                    accept="image/*"
-                                   data-img-preview="imgPreview"
                                    onchange="previewImage(this)" />
                         </div>
                     </div>
 
+                    <!-- preview -->
                     <div class="row mb-3">
                         <label class="col-sm-3 fw-semibold">Xem trước</label>
                         <div class="col-sm-9">
                             <img id="imgPreview"
-                                 src="~/images/products/nophoto.png"
+                                 src="/images/products/@Model.Photo"
                                  class="img-thumbnail"
                                  style="max-height:200px;" />
                         </div>
                     </div>
 
+                    <!-- description -->
                     <div class="row mb-3">
                         <label class="col-sm-3 fw-semibold">Mô tả</label>
                         <div class="col-sm-9">
-                            <input type="text" name="Description"
-                                      class="form-control" />
+                            <input type="text"
+                                   name="Description"
+                                   value="@Model.Description"
+                                   class="form-control" />
                         </div>
                     </div>
 
+                    <!-- order -->
                     <div class="row mb-3">
                         <label class="col-sm-3 fw-semibold">Thứ tự hiển thị</label>
                         <div class="col-sm-3">
                             <input type="number"
                                    name="DisplayOrder"
+                                   value="@Model.DisplayOrder"
                                    class="form-control"
-                                   value="1"
                                    min="1" />
                         </div>
                     </div>
 
+                    <!-- hidden -->
                     <div class="row mb-4">
                         <label class="col-sm-3 fw-semibold">Trạng thái</label>
                         <div class="col-sm-9">
@@ -69,15 +80,25 @@
                                 <input class="form-check-input"
                                        type="checkbox"
                                        name="IsHidden"
-                                       id="IsHidden" />
-                                <label class="form-check-label" for="IsHidden">
+                                @(Model.IsHidden ? "checked" : "") />
+                                <label class="form-check-label">
                                     Ẩn ảnh
                                 </label>
                             </div>
                         </div>
-                    </div>                    
+                    </div>
+
                 </form>
             </div>
         </div>
     </div>
 </div>
+
+<script>
+    function previewImage(input) {
+        const img = document.getElementById("imgPreview");
+        if (input.files && input.files[0]) {
+            img.src = URL.createObjectURL(input.files[0]);
+        }
+    }
+</script>

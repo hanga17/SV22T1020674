@@ -271,5 +271,58 @@ namespace SV22T1020674.Admin.Controllers
 
             return RedirectToAction("Edit", new { id = model.ProductID });
         }
+        // ====== FORM SỬA ẢNH ======
+        public async Task<IActionResult> EditPhoto(long photoId, int productId)
+        {
+            var photo = (await CatalogDataService.ListPhotosAsync(productId))
+                        .FirstOrDefault(p => p.PhotoID == photoId);
+
+            if (photo == null)
+                return RedirectToAction("Edit", new { id = productId });
+
+            return View(photo);
+        }
+
+        // ====== LƯU SỬA ẢNH ======
+        [HttpPost]
+        public async Task<IActionResult> EditPhoto(ProductPhoto model, IFormFile uploadPhoto)
+        {
+            if (uploadPhoto != null && uploadPhoto.Length > 0)
+            {
+                string path = Path.Combine(
+                    Directory.GetCurrentDirectory(),
+                    "..",
+                    "SV22T1020674.Shop",
+                    "wwwroot",
+                    "images",
+                    "products"
+                );
+
+                if (!Directory.Exists(path))
+                    Directory.CreateDirectory(path);
+
+                string fileName = Guid.NewGuid().ToString() + Path.GetExtension(uploadPhoto.FileName);
+                string fullPath = Path.Combine(path, fileName);
+
+                using (var stream = new FileStream(fullPath, FileMode.Create))
+                {
+                    await uploadPhoto.CopyToAsync(stream);
+                }
+
+                model.Photo = fileName;
+            }
+            else
+            {
+                // giữ ảnh cũ
+                var old = (await CatalogDataService.ListPhotosAsync(model.ProductID))
+                          .FirstOrDefault(p => p.PhotoID == model.PhotoID);
+
+                model.Photo = old?.Photo;
+            }
+
+            await CatalogDataService.UpdatePhotoAsync(model);
+
+            return RedirectToAction("Edit", new { id = model.ProductID });
+        }
     }
 }
