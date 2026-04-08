@@ -1,0 +1,145 @@
+﻿@{
+    ViewData["Title"] = "Đăng nhập";
+}
+
+<style>
+    body {
+        font-family: Arial;
+        background: #f5f1e6;
+    }
+
+    /* WRAPPER */
+    .login-wrapper {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 80vh;
+    }
+
+    /* CARD */
+    .login-card {
+        background: #fff;
+        padding: 35px;
+        width: 350px;
+        border-radius: 15px;
+        box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+        text-align: center;
+        animation: fadeIn 0.5s ease;
+    }
+
+        .login-card h2 {
+            margin-bottom: 20px;
+            color: #5a3e2b;
+        }
+
+    /* INPUT */
+    .login-form input {
+        width: 100%;
+        padding: 12px;
+        margin: 10px 0;
+        border-radius: 8px;
+        border: 1px solid #ccc;
+        transition: 0.3s;
+    }
+
+        .login-form input:focus {
+            border-color: #c9a66b;
+            outline: none;
+            box-shadow: 0 0 5px rgba(201,166,107,0.5);
+        }
+
+    /* BUTTON */
+    .login-form button {
+        width: 100%;
+        margin-top: 10px;
+        background: linear-gradient(45deg, #c9a66b, #a67c52);
+        color: white;
+        border: none;
+        padding: 12px;
+        border-radius: 8px;
+        cursor: pointer;
+        font-weight: bold;
+        transition: 0.3s;
+    }
+
+        .login-form button:hover {
+            background: #8b5e3c;
+            transform: translateY(-2px);
+        }
+
+    /* MESSAGE */
+    .success-msg {
+        background: #d4edda;
+        padding: 10px;
+        border-radius: 5px;
+        color: #155724;
+        margin-bottom: 10px;
+    }
+
+    .error {
+        color: red;
+        margin-top: 10px;
+    }
+
+    /* LINK */
+    .register-link {
+        margin-top: 15px;
+    }
+
+        .register-link a {
+            color: #a67c52;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+            .register-link a:hover {
+                color: #ffd700;
+            }
+
+    /* ANIMATION */
+    @@keyframes fadeIn {
+        from {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+</style>
+
+<div class="login-wrapper">
+    <div class="login-card">
+
+        <h2>Đăng nhập</h2>
+
+        @if (TempData["Message"] != null)
+        {
+            <div id="successMessage" class="success-msg">
+                @TempData["Message"]
+            </div>
+
+            <script>
+                        setTimeout(function () {
+                            var msg = document.getElementById("successMessage");
+                            if (msg) msg.style.display = "none";
+                        }, 3000);
+            </script>
+        }
+
+        <form method="post" class="login-form">
+            <input name="email" placeholder="Email" />
+            <input name="password" type="password" placeholder="Mật khẩu" />
+            <button>Đăng nhập</button>
+        </form>
+
+        <p class="error">@ViewBag.Error</p>
+
+        <div class="register-link">
+            <a href="/Account/Register">Đăng ký tài khoản</a>
+        </div>
+
+    </div>
+</div>

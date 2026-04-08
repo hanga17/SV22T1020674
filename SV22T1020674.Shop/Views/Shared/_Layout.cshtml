@@ -1,0 +1,308 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Aura Shop</title>
+
+    <style>
+        body {
+            font-family: Arial;
+            margin: 0;
+            background: #f5f1e6;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        /* ===== TOP HEADER ===== */
+        .top-header {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            padding: 20px 0;
+            background: #6b4a34;
+        }
+
+        .shop-name {
+            font-size: 38px;
+            font-weight: bold;
+            letter-spacing: 2px;
+
+            background: linear-gradient(90deg,#C9A646,#FFD700,#E6C76A,#C9A646);
+            background-size: 200% auto;
+
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+
+            animation: goldShine 3s linear infinite, luxuryFloat 3s ease-in-out infinite;
+        }
+
+        .hotline {
+            position: absolute;
+            left: 30px;
+            font-size: 18px;
+            font-weight: bold;
+            color: #ffd700;
+            animation: shakeHotline 2.2s ease-in-out infinite;
+        }
+
+        /* ===== HEADER ===== */
+        .header {
+            background: linear-gradient(120deg,#4a3324,#6b4a34,#6b4a33,#6b4a34);
+            background-size: 200% 200%;
+            color: #fff;
+            padding: 15px 30px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            border-top: 2px solid #C9A646;
+            animation: headerFlow 6s ease infinite;
+            overflow: hidden;
+        }
+
+        .header::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: -50%;
+            width: 50%;
+            height: 100%;
+            background: linear-gradient(120deg,transparent,rgba(255,215,0,0.15),transparent);
+            animation: shineMove 4s infinite;
+        }
+
+        .menu {
+            display: flex;
+            gap: 20px;
+        }
+
+        .menu a {
+            color: #f5deb3;
+            text-decoration: none;
+            font-weight: bold;
+            position: relative;
+            transition: 0.3s;
+        }
+
+        .menu a::after {
+            content: "";
+            position: absolute;
+            width: 0;
+            height: 2px;
+            background: #ffd700;
+            left: 0;
+            bottom: -5px;
+            transition: 0.3s;
+        }
+
+        /* HOVER */
+        .menu a:hover::after {
+            width: 100%;
+        }
+
+        .menu a:hover {
+            color: #ffd700;
+        }
+
+        /* ACTIVE (QUAN TRỌNG) */
+        .menu a.active {
+            color: #ffd700;
+        }
+
+        .menu a.active::after {
+            width: 100%;
+        }
+
+        .user {
+            position: absolute;
+            right: 30px;
+            color: #ffd700;
+            font-weight: bold;
+        }
+
+        .container {
+            width: 85%;
+            margin: 30px auto;
+            flex: 1;
+        }
+
+        /* ===== FOOTER ===== */
+        .footer {
+            background: #6b4a34;
+            color: #fff;
+            padding: 40px 60px 20px;
+        }
+
+        .footer-container {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 40px;
+        }
+
+        .footer h3 {
+            color: #ffd700;
+            margin-bottom: 15px;
+        }
+
+        .footer p, .footer a {
+            color: #f5deb3;
+            text-decoration: none;
+            font-size: 14px;
+            line-height: 1.8;
+        }
+
+        .footer a::after {
+            content: "";
+            position: absolute;
+            width: 0;
+            height: 1px;
+            background: #ffd700;
+            left: 0;
+            bottom: -2px;
+            transition: 0.3s;
+        }
+
+        .footer a:hover::after {
+            width: 100%;
+        }
+
+        .footer a:hover {
+            color: #ffd700;
+        }
+
+        .footer-bottom {
+            text-align: center;
+            border-top: 1px solid #a67c52;
+            margin-top: 30px;
+            padding-top: 15px;
+            font-size: 13px;
+            color: #ccc;
+        }
+
+        /* ANIMATIONS */
+        @@keyframes goldShine {
+            0% { background-position: 0% center; }
+            100% { background-position: 200% center; }
+        }
+
+        @@keyframes luxuryFloat {
+            0%,100% { transform: translateY(0); }
+            50% { transform: translateY(-2px); }
+        }
+
+        @@keyframes shakeHotline {
+            0%{transform:translateX(0);}
+            25%{transform:translateX(-4px);}
+            50%{transform:translateX(4px);}
+            75%{transform:translateX(-3px);}
+            100%{transform:translateX(0);}
+        }
+
+        @@keyframes headerFlow {
+            0%{background-position:0% 50%;}
+            50%{background-position:100% 50%;}
+            100%{background-position:0% 50%;}
+        }
+
+        @@keyframes shineMove {
+            0%{left:-50%;}
+            100%{left:120%;}
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- TOP HEADER -->
+    <div class="top-header">
+        <div class="hotline">☎ Hotline: 1717 777</div>
+        <div class="shop-name">AURA SHOP</div>
+    </div>
+
+    <!-- HEADER -->
+    <div class="header">
+        <div class="menu">
+
+            @if (Context.Session.GetString("User") == null)
+            {
+                <a href="/" class="@(Context.Request.Path == "/" ? "active" : "")">Trang chủ</a>
+
+                <a href="/Product" class="@(Context.Request.Path.StartsWithSegments("/Product") ? "active" : "")">Sản phẩm</a>
+
+                <a href="/Account/Login" class="@(Context.Request.Path.StartsWithSegments("/Account/Login") ? "active" : "")">Đăng nhập</a>
+            }
+            else
+            {
+                <a href="/" class="@(Context.Request.Path == "/" ? "active" : "")">Trang chủ</a>
+
+                <a href="/Product" class="@(Context.Request.Path.StartsWithSegments("/Product") ? "active" : "")">Sản phẩm</a>
+
+                <a href="/Cart" class="@(Context.Request.Path.StartsWithSegments("/Cart") ? "active" : "")">Giỏ hàng</a>
+
+                <a href="/Order/Index" class="@(Context.Request.Path.StartsWithSegments("/Order") ? "active" : "")">Đơn hàng</a>
+
+                <a href="/Account/Profile" class="@(Context.Request.Path.StartsWithSegments("/Account/Profile") ? "active" : "")">Hồ sơ</a>
+
+                <a href="/Account/Logout">Đăng xuất</a>
+            }
+
+        </div>
+
+        @if (Context.Session.GetString("User") != null)
+        {
+            <div class="user">
+                Xin chào: @Context.Session.GetString("User")
+            </div>
+        }
+    </div>
+
+    <!-- CONTENT -->
+    <div class="container">
+        @RenderBody()
+    </div>
+
+    <!-- FOOTER -->
+    <div class="footer">
+        <div class="footer-container">
+
+            <div>
+                <h3>Aura Shop</h3>
+                <p>Chúng tôi mang đến những thiết kế độc đáo, kết hợp 
+                    giữa sự sang trọng và tinh tế, giúp bạn tỏa sáng
+                    trong mọi khoảnh khắc.</p>
+            </div>
+
+            <div>
+                <h3>Sản phẩm</h3>
+                <p><a href="#">Áo</a></p>
+                <p><a href="#">Quần</a></p>
+                <p><a href="#">Điện tử</a></p>
+                <p><a href="#">Phụ kiện</a></p>
+            </div>
+
+            <div>
+                <h3>Chi nhánh</h3>
+                <p>📍 Hoá Châu,TP. Huế</p>
+                <p>📍 Bến Thành,TP. Hồ Chí Minh</p>
+                <p>📍 Mỹ Đình,Hà Nội</p>
+            </div>
+
+            <div>
+                <h3>Liên hệ</h3>
+                <p><span class="icon">📍</span>Hoá Châu, TP Huế</p>
+                <p><span class="icon">📞</span>0171 717 711</p>
+                <p><span class="icon">✉️</span>aurashop@gmail.com</p>
+            </div>
+
+        </div>
+
+        <div class="footer-bottom">
+            &copy; 2026 Aura Shop. All rights reserved.
+        </div>
+    </div>
+
+</body>
+</html>

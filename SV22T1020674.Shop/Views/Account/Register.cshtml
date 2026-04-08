@@ -1,0 +1,152 @@
+﻿@{
+    ViewData["Title"] = "Đăng ký";
+}
+
+<style>
+    body {
+        font-family: Arial;
+        background: #f5f1e6;
+    }
+
+    /* WRAPPER */
+    .register-wrapper {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 85vh;
+    }
+
+    /* CARD */
+    .register-card {
+        background: #fff;
+        padding: 35px;
+        width: 400px;
+        border-radius: 15px;
+        box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+        animation: fadeIn 0.5s ease;
+    }
+
+        .register-card h2 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #5a3e2b;
+        }
+
+    /* FORM */
+    .register-form label {
+        display: block;
+        margin-top: 10px;
+        font-weight: bold;
+        color: #5a3e2b;
+    }
+
+    .register-form input {
+        width: 100%;
+        padding: 10px;
+        margin-top: 5px;
+        border-radius: 8px;
+        border: 1px solid #ccc;
+        transition: 0.3s;
+    }
+
+        .register-form input:focus {
+            border-color: #c9a66b;
+            outline: none;
+            box-shadow: 0 0 5px rgba(201,166,107,0.5);
+        }
+
+    /* BUTTON */
+    .register-form button {
+        width: 100%;
+        margin-top: 20px;
+        background: linear-gradient(45deg, #c9a66b, #a67c52);
+        color: white;
+        border: none;
+        padding: 12px;
+        border-radius: 8px;
+        cursor: pointer;
+        font-weight: bold;
+        transition: 0.3s;
+    }
+
+        .register-form button:hover {
+            background: #8b5e3c;
+            transform: translateY(-2px);
+        }
+
+    /* BACK TO LOGIN */
+    .back-login {
+        text-align: center;
+        margin-top: 15px;
+    }
+
+        .back-login a {
+            color: #a67c52;
+            text-decoration: none;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+
+            .back-login a:hover {
+                color: #ffd700;
+            }
+
+    /* ERROR */
+    .error {
+        color: red;
+        margin-top: 10px;
+        text-align: center;
+    }
+
+    /* ANIMATION */
+    @@keyframes fadeIn {
+        from {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+</style>
+
+<div class="register-wrapper">
+    <div class="register-card">
+
+        <h2>Đăng ký tài khoản</h2>
+
+        <form method="post" class="register-form">
+
+            <label>Họ và tên</label>
+            <input name="fullName" required />
+
+            <label>Ngày sinh</label>
+            <input type="date" name="birthDate" />
+
+            <label>Địa chỉ</label>
+            <input name="address" />
+
+            <label>Số điện thoại</label>
+            <input name="phone" />
+
+            <label>Email (dùng để đăng nhập)</label>
+            <input name="email" required />
+
+            <label>Mật khẩu</label>
+            <input type="password" name="password" required />
+
+            <button>Đăng ký</button>
+
+            <!-- 👇 DÒNG QUAY LẠI LOGIN -->
+            <div class="back-login">
+                <a href="/Account/Login">← Quay lại đăng nhập</a>
+            </div>
+
+        </form>
+
+        <p class="error">@ViewBag.Error</p>
+
+    </div>
+</div>

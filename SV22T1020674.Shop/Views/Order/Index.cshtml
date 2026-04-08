@@ -1,0 +1,169 @@
+﻿@model IEnumerable<dynamic>
+
+<style>
+    .order-wrapper {
+        max-width: 900px;
+        margin: 40px auto;
+    }
+
+    .order-title {
+        text-align: center;
+        color: #5a3e2b;
+        margin-bottom: 20px;
+        position: relative;
+    }
+
+    /* NÚT LỊCH SỬ */
+    .btn-history {
+        position: absolute;
+        right: 0;
+        top: 0;
+        background: linear-gradient(45deg, #c9a66b, #a67c52);
+        color: white;
+        padding: 6px 14px;
+        border-radius: 8px;
+        text-decoration: none;
+        font-size: 13px;
+        font-weight: bold;
+        transition: 0.3s;
+    }
+
+        .btn-history:hover {
+            background: #8b5e3c;
+            transform: translateY(-1px);
+        }
+
+    .order-card {
+        background: #fff;
+        padding: 20px;
+        border-radius: 15px;
+        box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+    }
+
+    .order-table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+        .order-table th {
+            background: #f5f1e6;
+            color: #5a3e2b;
+            padding: 12px;
+            text-align: center;
+        }
+
+        .order-table td {
+            padding: 12px;
+            text-align: center;
+            border-bottom: 1px solid #eee;
+        }
+
+        .order-table tr:hover {
+            background: #faf7f0;
+        }
+
+    .status {
+        padding: 6px 12px;
+        border-radius: 20px;
+        font-size: 13px;
+        font-weight: bold;
+        display: inline-block;
+    }
+
+    .status-processing {
+        background: #fff3cd;
+        color: #856404;
+    }
+
+    .status-done {
+        background: #28a745;
+        color: #fff;
+    }
+
+    .btn-view {
+        background: linear-gradient(45deg, #c9a66b, #a67c52);
+        color: white;
+        padding: 6px 12px;
+        border-radius: 8px;
+        text-decoration: none;
+        font-size: 13px;
+        font-weight: bold;
+        transition: 0.3s;
+    }
+
+        .btn-view:hover {
+            background: #8b5e3c;
+            transform: translateY(-1px);
+        }
+
+    .empty {
+        text-align: center;
+        padding: 20px;
+        color: #888;
+    }
+</style>
+
+<div class="order-wrapper">
+
+    <h2 class="order-title">
+        📦 Đơn hàng của tôi
+
+        <!-- NÚT LỊCH SỬ -->
+        <a href="https://localhost:7281/Cart/History" class="btn-history">
+            🕘 Lịch sử mua hàng
+        </a>
+    </h2>
+
+    <div class="order-card">
+
+        @if (Model != null && Model.Any())
+        {
+            <table class="order-table">
+                <tr>
+                    <th>Mã</th>
+                    <th>Ngày</th>
+                    <th>Trạng thái</th>
+                    <th></th>
+                </tr>
+
+                @foreach (var o in Model)
+                {
+                    <tr>
+                        <td>@o.OrderID</td>
+
+                        <td>@o.OrderTime</td>
+
+                        <td>
+                            @if (o.Status == 1)
+                            {
+                                <span class="status status-processing">
+                                    ⏳ Đang xử lý
+                                </span>
+                            }
+                            else
+                            {
+                                <span class="status status-done">
+                                    ✅ Hoàn thành
+                                </span>
+                            }
+                        </td>
+
+                        <td>
+                            <a href="/Order/Details/@o.OrderID" class="btn-view">
+                                👁️ Xem chi tiết
+                            </a>
+                        </td>
+                    </tr>
+                }
+            </table>
+        }
+        else
+        {
+            <div class="empty">
+                📭 Bạn chưa có đơn hàng nào
+            </div>
+        }
+
+    </div>
+
+</div>

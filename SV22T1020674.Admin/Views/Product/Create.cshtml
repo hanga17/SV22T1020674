@@ -1,0 +1,32 @@
+﻿@model SV22T1020674.Models.Catalog.Product
+
+@{
+    ViewBag.Title = "Bổ sung mặt hàng";
+}
+
+<h2>Bổ sung mặt hàng</h2>
+
+<form method="post">
+    <div class="mb-3">
+        <label class="form-label">Tên mặt hàng</label>
+        <input type="text" name="ProductName" class="form-control" required />
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Giá</label>
+        <input type="number" name="Price" class="form-control" required />
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Mô tả</label>
+        <textarea name="ProductDescription" class="form-control"></textarea>
+    </div>
+
+    <button type="submit" class="btn btn-primary">
+        Lưu
+    </button>
+
+    <a href="~/Product" class="btn btn-secondary">
+        Quay lại
+    </a>
+</form>

@@ -1,0 +1,196 @@
+﻿@model List<SV22T1020674.Models.Catalog.ProductAttribute>
+
+@{
+    ViewBag.Title = "Thuộc tính sản phẩm";
+}
+
+<!-- FORM THÊM -->
+<form method="post" action="~/Product/AddAttribute" class="mb-3">
+    <input type="hidden" name="ProductID" value="@ViewBag.ProductID" />
+
+    <div class="row">
+        <div class="col-md-3">
+            <input type="text" name="AttributeName" class="form-control" placeholder="Tên thuộc tính" required />
+        </div>
+
+        <div class="col-md-3">
+            <input type="text" name="AttributeValue" class="form-control" placeholder="Giá trị" required />
+        </div>
+
+        <div class="col-md-2">
+            <input type="number" name="DisplayOrder" class="form-control" value="1" />
+        </div>
+
+        <div class="col-md-2">
+            <button class="btn btn-primary">Thêm</button>
+        </div>
+    </div>
+</form>
+
+<!-- DANH SÁCH -->
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Tên</th>
+            <th>Giá trị</th>
+            <th>Thứ tự</th>
+            <th></th>
+        </tr>
+    </thead>
+
+    <tbody>
+        @if (Model != null && Model.Count > 0)
+        {
+            foreach (var item in Model)
+            {
+                <tr id="row-@item.AttributeID">
+
+                    <!-- VIEW -->
+                    <td class="view">@item.AttributeName</td>
+                    <td class="view">@item.AttributeValue</td>
+                    <td class="view">@item.DisplayOrder</td>
+
+                    <!-- EDIT -->
+                    <td class="edit" style="display:none;">
+                        <form method="post" action="~/Product/UpdateAttribute">
+                            <input type="hidden" name="AttributeID" value="@item.AttributeID" />
+                            <input type="hidden" name="ProductID" value="@item.ProductID" />
+
+                            <input type="text" name="AttributeName" value="@item.AttributeName" class="form-control mb-1" />
+                            <input type="text" name="AttributeValue" value="@item.AttributeValue" class="form-control mb-1" />
+                            <input type="number" name="DisplayOrder" value="@item.DisplayOrder" class="form-control mb-2" />
+
+                            <button type="submit" class="btn btn-success btn-sm">Lưu</button>
+                            <button type="button" class="btn btn-secondary btn-sm"
+                                    onclick="cancelEdit(@item.AttributeID)">
+                                Huỷ
+                            </button>
+                        </form>
+                    </td>
+
+                    <!-- ACTION -->
+                    <td class="view">
+                        <button type="button"
+                                class="btn btn-warning btn-sm"
+                                onclick="editRow(@item.AttributeID)">
+                            Sửa
+                        </button>
+
+                        <!-- DELETE FORM -->
+                        <form method="post"
+                              action="~/Product/DeleteAttribute"
+                              style="display:inline;">
+                            <input type="hidden" name="id" value="@item.AttributeID" />
+                            <input type="hidden" name="productId" value="@item.ProductID" />
+
+                            <button type="button"
+                                    class="btn btn-danger btn-sm"
+                                    onclick="handleDelete(this)">
+                                Xóa
+                            </button>
+                        </form>
+                    </td>
+
+                </tr>
+            }
+        }
+        else
+        {
+            <tr>
+                <td colspan="4" class="text-center text-muted">
+                    Chưa có thuộc tính
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<a href="~/Product" class="btn btn-secondary">Quay lại</a>
+
+<!-- POPUP XOÁ -->
+<div id="customConfirm" class="confirm-overlay">
+    <div class="confirm-box">
+        <h5>Xác nhận xoá</h5>
+        <p>Bạn có chắc muốn xoá thuộc tính này?</p>
+
+        <div class="confirm-actions">
+            <button id="btnOk" class="btn-ok">Xoá</button>
+            <button id="btnCancel" class="btn-cancel">Huỷ</button>
+        </div>
+    </div>
+</div>
+
+<style>
+    .confirm-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0,0,0,0.4);
+        display: none;
+        justify-content: center;
+        align-items: center;
+        z-index: 9999;
+    }
+
+    .confirm-box {
+        background: #fff;
+        padding: 25px;
+        border-radius: 16px;
+        width: 360px;
+        text-align: center;
+        box-shadow: 0 15px 30px rgba(0,0,0,0.2);
+    }
+
+    .confirm-actions {
+        margin-top: 20px;
+        display: flex;
+        justify-content: center;
+        gap: 12px;
+    }
+
+    .btn-ok {
+        background: #7b4b3a;
+        color: #fff;
+        border: none;
+        padding: 8px 22px;
+        border-radius: 25px;
+    }
+
+    .btn-cancel {
+        background: #e5cfc5;
+        border: none;
+        padding: 8px 22px;
+        border-radius: 25px;
+    }
+</style>
+
+<script>
+    let currentForm = null;
+
+    function handleDelete(btn) {
+        currentForm = btn.closest("form");
+        document.getElementById("customConfirm").style.display = "flex";
+    }
+
+    document.getElementById("btnOk").onclick = function () {
+        if (currentForm) currentForm.submit();
+    };
+
+    document.getElementById("btnCancel").onclick = function () {
+        document.getElementById("customConfirm").style.display = "none";
+    };
+
+    function editRow(id) {
+        let row = document.getElementById("row-" + id);
+        row.querySelectorAll(".view").forEach(x => x.style.display = "none");
+        row.querySelectorAll(".edit").forEach(x => x.style.display = "");
+    }
+
+    function cancelEdit(id) {
+        let row = document.getElementById("row-" + id);
+        row.querySelectorAll(".view").forEach(x => x.style.display = "");
+        row.querySelectorAll(".edit").forEach(x => x.style.display = "none");
+    }
+</script>

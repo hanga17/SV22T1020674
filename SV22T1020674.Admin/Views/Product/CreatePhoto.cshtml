@@ -1,0 +1,25 @@
+﻿<h4>Thêm ảnh sản phẩm</h4>
+
+<form method="post" enctype="multipart/form-data">
+
+    <input type="hidden" name="ProductID" value="@ViewBag.ProductID" />
+
+    <div class="mb-3">
+        <label>Chọn ảnh</label>
+        <input type="file" name="uploadPhoto" class="form-control" />
+    </div>
+
+    <div class="mb-3">
+        <label>Mô tả</label>
+        <input type="text" name="Description" class="form-control" />
+    </div>
+
+    <div class="mb-3">
+        <label>Thứ tự</label>
+        <input type="number" name="DisplayOrder" value="1" class="form-control" />
+    </div>
+
+    <button class="btn btn-primary">Lưu</button>
+    <a href="~/Product/Edit/@ViewBag.ProductID" class="btn btn-secondary">Quay lại</a>
+
+</form>

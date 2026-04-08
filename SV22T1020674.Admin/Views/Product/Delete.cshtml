@@ -1,0 +1,169 @@
+﻿@model SV22T1020674.Models.Catalog.Product
+@{
+    ViewBag.Title = "Xóa mặt hàng";
+}
+
+<div class="row justify-content-center">
+    <div class="col-12">
+        <div class="card card-danger card-outline">
+            <div class="card-header">
+                <h5 class="card-title mb-0 text-danger">
+                    <i class="bi bi-exclamation-triangle me-2"></i>
+                    Xác nhận xóa mặt hàng
+                </h5>
+            </div>
+
+            <div class="card-body">
+                <form id="formDelete" method="post" action="/Product/Delete/@Model.ProductID">
+                    @Html.AntiForgeryToken()
+
+                    <div class="alert alert-warning d-flex align-items-center">
+                        <i class="bi bi-info-circle me-2"></i>
+                        Bạn có chắc chắn muốn xóa mặt hàng này không?
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-8">
+                            <dl class="row mb-0">
+                                <dt class="col-sm-4">Tên mặt hàng</dt>
+                                <dd class="col-sm-8">@Model.ProductName</dd>
+
+                                <dt class="col-sm-4">Loại hàng</dt>
+                                <dd class="col-sm-8">@Model.CategoryID</dd>
+
+                                <dt class="col-sm-4">Nhà cung cấp</dt>
+                                <dd class="col-sm-8">@Model.SupplierID</dd>
+
+                                <dt class="col-sm-4">Đơn vị tính</dt>
+                                <dd class="col-sm-8">@Model.Unit</dd>
+
+                                <dt class="col-sm-4">Giá bán</dt>
+                                <dd class="col-sm-8">@Model.Price.ToString("N0") VNĐ</dd>
+
+                                <dt class="col-sm-4">Trạng thái</dt>
+                                <dd class="col-sm-8">
+                                    @if (Model.IsSelling)
+                                    {
+                                        <span class="badge bg-success">Đang bán</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="badge bg-secondary">Ngừng bán</span>
+                                    }
+                                </dd>
+                            </dl>
+                        </div>
+
+                        <div class="col-md-4 text-end">
+                            <img src="/shop/images/products/@(string.IsNullOrEmpty(Model.Photo) ? "nophoto.png" : Model.Photo)"
+                                 class="img-fluid img-thumbnail"
+                                 style="max-height: 220px;" />
+                        </div>
+                    </div>
+
+                    <!-- NÚT -->
+                    <div class="mt-3">
+                        <button type="button" class="btn btn-danger"
+                                onclick="showConfirm()">
+                            Xóa
+                        </button>
+
+                        <a href="~/Product" class="btn btn-secondary ms-1">
+                            <i class="bi bi-arrow-left"></i>
+                            Quay lại
+                        </a>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- POPUP -->
+<div id="customConfirm" class="confirm-overlay">
+    <div class="confirm-box">
+        <h5 class="text-danger">
+            <i class="bi bi-exclamation-triangle"></i> Xác nhận xoá
+        </h5>
+
+        <p>Bạn có chắc chắn muốn xoá mặt hàng này?</p>
+
+        <div class="confirm-actions">
+            <button id="btnOk" class="btn-ok">Xoá</button>
+            <button id="btnCancel" class="btn-cancel">Huỷ</button>
+        </div>
+    </div>
+</div>
+
+<style>
+    .confirm-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0,0,0,0.45);
+        display: none;
+        justify-content: center;
+        align-items: center;
+        z-index: 9999;
+    }
+
+    .confirm-box {
+        background: #fff;
+        padding: 28px;
+        border-radius: 18px;
+        width: 380px;
+        text-align: center;
+        box-shadow: 0 20px 40px rgba(0,0,0,0.25);
+    }
+
+        .confirm-box h5 {
+            margin-bottom: 10px;
+        }
+
+    .confirm-actions {
+        margin-top: 20px;
+        display: flex;
+        justify-content: center;
+        gap: 12px;
+    }
+
+    .btn-ok {
+        background: #7b4b3a;
+        color: #fff;
+        border: none;
+        padding: 10px 24px;
+        border-radius: 25px;
+    }
+
+        .btn-ok:hover {
+            background: #5a3428;
+        }
+
+    .btn-cancel {
+        background: #e5cfc5;
+        border: none;
+        padding: 10px 24px;
+        border-radius: 25px;
+    }
+
+        .btn-cancel:hover {
+            background: #d6b8ac;
+        }
+</style>
+
+<script>
+    function showConfirm() {
+        document.getElementById("customConfirm").style.display = "flex";
+    }
+
+    document.getElementById("btnOk").onclick = function () {
+        document.getElementById("formDelete").submit();
+    };
+
+    document.getElementById("btnCancel").onclick = function () {
+        document.getElementById("customConfirm").style.display = "none";
+    };
+</script>

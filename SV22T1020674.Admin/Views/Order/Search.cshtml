@@ -1,0 +1,118 @@
+﻿
+@model SV22T1020674.Models.Common.PagedResult<SV22T1020674.Models.Sales.OrderViewInfo>
+@using SV22T1020674.Models.Sales
+
+@{
+    Layout = null;
+}
+
+<div class="mb-2 text-muted">
+    Danh sách này có <strong>@Model.RowCount</strong> đơn hàng
+</div>
+
+<div class="card">
+    <div class="card-body p-1">
+        <table class="table table-bordered table-hover mb-0 align-middle">
+            <thead class="table-secondary">
+                <tr>
+                    <th>Ngày đặt hàng</th>
+                    <th>Tên khách hàng</th>
+                    <th>Điện thoại</th>
+                    <th>Ngày duyệt</th>
+                    <th>Nhân viên xử lý</th>
+                    <th class="text-end">Tổng tiền</th>
+                    <th class="text-center">Trạng thái</th>
+                    <th class="text-center" style="width:220px;">Thao tác</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                @foreach (var item in Model.DataItems)
+                {
+                    <tr>
+                        <td>@item.OrderTime.ToString("dd/MM/yyyy")</td>
+                        <td>@item.CustomerName</td>
+                        <td>@item.CustomerPhone</td>
+                        <td>@(item.AcceptTime?.ToString("dd/MM/yyyy"))</td>
+                        <td>@item.EmployeeName</td>
+
+                        <td class="text-end">
+                            @(item.TotalAmount.ToString("N0")) VNĐ
+                        </td>
+
+                        <td class="text-center">
+                            @if (item.Status == OrderStatusEnum.New)
+                            {
+                                <span class="badge bg-warning text-dark">Mới</span>
+                            }
+                            else if (item.Status == OrderStatusEnum.Accepted)
+                            {
+                                <span class="badge bg-info">Đã duyệt</span>
+                            }
+                            else if (item.Status == OrderStatusEnum.Shipping)
+                            {
+                                <span class="badge bg-primary">Đang giao</span>
+                            }
+                            else if (item.Status == OrderStatusEnum.Completed)
+                            {
+                                <span class="badge bg-success">Hoàn thành</span>
+                            }
+                            else if (item.Status == OrderStatusEnum.Cancelled)
+                            {
+                                <span class="badge bg-danger">Đã hủy</span>
+                            }
+                            else if (item.Status == OrderStatusEnum.Rejected)
+                            {
+                                <span class="badge bg-dark">Từ chối</span>
+                            }
+                        </td>
+
+                        <td class="text-center text-nowrap">
+
+                            <!-- XEM CHI TIẾT -->
+                            <a href="~/Order/Details/@item.OrderID" class="btn btn-sm btn-primary">
+                                <i class="bi bi-receipt"></i>
+                            </a>
+
+                            <!-- ĐƠN MỚI -->
+                            @if (item.Status == OrderStatusEnum.New)
+                            {
+                                <a href="~/Order/Accept/@item.OrderID" class="btn btn-sm btn-success">✔</a>
+                                <a href="~/Order/Reject/@item.OrderID" class="btn btn-sm btn-danger">✖</a>
+                            }
+
+                            <!-- ĐÃ DUYỆT -->
+                            @if (item.Status == OrderStatusEnum.Accepted)
+                            {
+                                <a href="~/Order/Shipping/@item.OrderID" class="btn btn-sm btn-primary">🚚</a>
+                                <a href="~/Order/Cancel/@item.OrderID" class="btn btn-sm btn-warning">Hủy</a>
+                            }
+
+                            <!-- ĐANG GIAO -->
+                            @if (item.Status == OrderStatusEnum.Shipping)
+                            {
+                                <a href="~/Order/Finish/@item.OrderID" class="btn btn-sm btn-success">✔</a>
+                            }
+
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
+    <div class="card-footer">
+        <ul class="pagination justify-content-center mb-0">
+            @for (int p = 1; p <= Model.PageCount; p++)
+            {
+                <li class="page-item @(p == Model.Page ? "active" : "")">
+                    <a class="page-link" href="javascript:;"
+                           onclick="paginationSearch(event, document.getElementById('formSearch'), @p)">
+                        @p
+                    </a>
+                </li>
+            }
+        </ul>
+    </div>
+</div>
+

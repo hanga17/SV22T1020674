@@ -1,0 +1,135 @@
+﻿@model IEnumerable<dynamic>
+
+<style>
+    /* WRAPPER */
+    .history-wrapper {
+        max-width: 1000px;
+        margin: 40px auto;
+    }
+
+    /* TITLE */
+    .history-title {
+        text-align: center;
+        color: #5a3e2b;
+        margin-bottom: 20px;
+    }
+
+    /* CARD */
+    .history-card {
+        background: #fff;
+        padding: 20px;
+        border-radius: 15px;
+        box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+    }
+
+    /* TABLE */
+    .history-table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+        .history-table th {
+            background: #f5f1e6;
+            color: #5a3e2b;
+            padding: 12px;
+            text-align: center;
+        }
+
+        .history-table td {
+            padding: 12px;
+            text-align: center;
+            border-bottom: 1px solid #eee;
+        }
+
+        .history-table tr:hover {
+            background: #faf7f0;
+        }
+
+    /* STATUS */
+    .status {
+        padding: 5px 10px;
+        border-radius: 6px;
+        font-weight: bold;
+    }
+
+    .status-done {
+        background: #d4edda;
+        color: #155724;
+    }
+
+    .status-pending {
+        background: #fff3cd;
+        color: #856404;
+    }
+
+    .status-cancel {
+        background: #f8d7da;
+        color: #721c24;
+    }
+
+    /* EMPTY */
+    .empty {
+        text-align: center;
+        padding: 20px;
+        color: #888;
+    }
+</style>
+
+<div class="history-wrapper">
+
+    <h2 class="history-title">🧾 Lịch sử đơn hàng</h2>
+
+    <div class="history-card">
+
+        @if (Model != null && Model.Any())
+        {
+            <table class="history-table">
+                <tr>
+                    <th>Mã đơn</th>
+                    <th>Sản phẩm</th>
+                    <th>Giá</th>
+                    <th>Số lượng</th>
+                    <th>Trạng thái</th>
+                    <th>Thời gian</th>
+                </tr>
+
+                @foreach (var item in Model)
+                {
+                    string statusClass = "status";
+
+                    if (item.Status != null)
+                    {
+                        var st = item.Status.ToString().ToLower();
+                        if (st.Contains("xong") || st.Contains("done"))
+                            statusClass += " status-done";
+                        else if (st.Contains("chờ") || st.Contains("pending"))
+                            statusClass += " status-pending";
+                        else if (st.Contains("hủy") || st.Contains("cancel"))
+                            statusClass += " status-cancel";
+                    }
+
+                    <tr>
+                        <td>@item.OrderID</td>
+                        <td>@item.ProductName</td>
+                        <td>@item.Price.ToString("N0") VNĐ</td>
+                        <td>@item.Quantity</td>
+                        <td>
+                            <span class="@statusClass">
+                                @item.Status
+                            </span>
+                        </td>
+                        <td>@item.OrderTime</td>
+                    </tr>
+                }
+            </table>
+        }
+        else
+        {
+            <div class="empty">
+                📭 Chưa có đơn hàng nào
+            </div>
+        }
+
+    </div>
+
+</div>

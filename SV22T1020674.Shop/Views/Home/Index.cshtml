@@ -1,0 +1,90 @@
+﻿@if (TempData["Message"] != null)
+{
+    <div id="msg" style="background:#d4edda;color:#155724;padding:10px;margin-bottom:10px;">
+        @TempData["Message"]
+    </div>
+
+    <style>
+        #msg {
+            transition: opacity 0.5s;
+        }
+    </style>
+
+    <script>
+        setTimeout(function () {
+            var el = document.getElementById("msg");
+            if (el) {
+                el.style.opacity = "0";
+                setTimeout(() => el.style.display = "none", 500);
+            }
+        }, 2000);
+    </script>
+}
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div style="text-align:center;padding:50px;background:#f5f1e6;">
+    <h1 style="font-size:40px;color:#5a3e2b;">AURA SHOP</h1>
+    <p style="font-size:18px;color:#6e4b33;">
+        Chuyên cung cấp sản phẩm chất lượng cao
+    </p>
+
+    <a href="/Product" style="
+        display:inline-block;
+        margin-top:20px;
+        padding:12px 25px;
+        background:linear-gradient(45deg, #c9a66b, #a67c52);
+        color:white;
+        text-decoration:none;
+        border-radius:8px;
+        font-size:18px;
+        transition:0.3s;">
+        Xem sản phẩm
+    </a>
+</div>
+
+<div style="padding:40px;text-align:center;background:#fff;">
+    <h2 style="color:#5a3e2b;">Về chúng tôi</h2>
+    <p style="color:#6e4b33;">
+        Aura Shop là nơi cung cấp các sản phẩm cao cấp với giá trị vượt trội.
+        Cam kết chất lượng – Uy tín – Phục vụ tận tâm.
+    </p>
+</div>
+
+<div style="display:flex;justify-content:center;gap:20px;padding:40px;">
+    
+    <div style="
+        width:250px;
+        padding:20px;
+        border-radius:12px;
+        background:#fff;
+        box-shadow:0 4px 10px rgba(0,0,0,0.1);">
+        
+        <h3 style="color:#a67c52;">🚚 Giao hàng</h3>
+        <p style="color:#6e4b33;">Nhanh chóng toàn quốc</p>
+    </div>
+
+    <div style="
+        width:250px;
+        padding:20px;
+        border-radius:12px;
+        background:#fff;
+        box-shadow:0 4px 10px rgba(0,0,0,0.1);">
+        
+        <h3 style="color:#a67c52;">💎 Chất lượng</h3>
+        <p style="color:#6e4b33;">Sản phẩm cao cấp</p>
+    </div>
+
+    <div style="
+        width:250px;
+        padding:20px;
+        border-radius:12px;
+        background:#fff;
+        box-shadow:0 4px 10px rgba(0,0,0,0.1);">
+        
+        <h3 style="color:#a67c52;">☎ Hỗ trợ</h3>
+        <p style="color:#6e4b33;">24/7 Tận tâm</p>
+    </div>
+
+</div>

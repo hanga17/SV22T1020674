@@ -1,0 +1,16 @@
+﻿namespace SV22T1020674.Models.Sales
+{
+    public class OrderDetailViewInfo
+    {
+        public int OrderID { get; set; }
+        public int ProductID { get; set; }
+
+        public string ProductName { get; set; } = "";
+        public string Unit { get; set; } = "";
+
+        public int Quantity { get; set; }
+        public decimal SalePrice { get; set; }
+
+        public decimal Total => Quantity * SalePrice;
+    }
+}

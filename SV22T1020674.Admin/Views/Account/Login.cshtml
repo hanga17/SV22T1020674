@@ -1,0 +1,75 @@
+﻿@{
+    ViewBag.Title = "Đăng nhập";
+    Layout = null;
+}
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>AURA SHOP</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link rel="stylesheet" href="~/lib/bootstrap/bootstrap-icons.min.css" />
+    <link rel="stylesheet" href="~/lib/adminlte/css/adminlte.css" />
+</head>
+
+<body class="login-page bg-body-secondary">
+    <div class="login-box">
+        <div class="login-logo">
+            <b>AURA</b> Shop
+        </div>
+
+        <div class="card">
+            <div class="card-body login-card-body">
+                <p class="login-box-msg">Đăng nhập</p>
+
+                <!-- ✅ HIỆN THÔNG BÁO LỖI -->
+                @if (!ViewData.ModelState.IsValid)
+                {
+                    <div class="alert alert-danger">
+                        @Html.ValidationMessage("Error")
+                    </div>
+                }
+
+                <form asp-action="Login" asp-controller="Account" method="post">
+                    
+                    <!-- EMAIL -->
+                    <div class="input-group mb-3">
+                        <input name="username"
+                               value="@ViewBag.Username"
+                               type="email"
+                               class="form-control"
+                               placeholder="Email"
+                               required />
+                        <div class="input-group-text">
+                            <span class="bi bi-envelope"></span>
+                        </div>
+                    </div>
+
+                    <!-- PASSWORD -->
+                    <div class="input-group mb-3">
+                        <input name="password"
+                               type="password"
+                               class="form-control"
+                               placeholder="Mật khẩu"
+                               required />
+                        <div class="input-group-text">
+                            <span class="bi bi-lock-fill"></span>
+                        </div>
+                    </div>
+
+                    <!-- BUTTON -->
+                    <div class="row">
+                        <div class="col-12">
+                            <button type="submit" class="btn btn-primary w-100">
+                                Đăng nhập
+                            </button>
+                        </div>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,132 @@
+﻿@model dynamic
+<h2 class="title">Chi tiết sản phẩm</h2>
+<style>
+    .title {
+        text-align: center;
+        color: #6b4a34;
+        margin-bottom: 20px;
+    }
+    /* WRAPPER */
+    .details-wrapper {
+        max-width: 900px;
+        margin: 40px auto;
+    }
+
+    /* CARD */
+    .details-card {
+        display: flex;
+        gap: 30px;
+        background: #fff;
+        padding: 25px;
+        border-radius: 15px;
+        box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+        animation: fadeIn 0.5s ease;
+    }
+
+    /* IMAGE */
+    .details-img img {
+        width: 300px;
+        border-radius: 12px;
+        object-fit: cover;
+    }
+
+    /* CONTENT */
+    .details-content {
+        flex: 1;
+    }
+
+        .details-content h2 {
+            color: #5a3e2b;
+            margin-bottom: 10px;
+        }
+
+    .price {
+        color: #c9a66b;
+        font-size: 22px;
+        font-weight: bold;
+        margin-bottom: 15px;
+    }
+
+    .desc {
+        color: #444;
+        line-height: 1.6;
+        margin-bottom: 20px;
+    }
+
+    /* BUTTON */
+    .btn-custom {
+        background: linear-gradient(45deg, #c9a66b, #a67c52);
+        color: white;
+        border: none;
+        padding: 10px 18px;
+        border-radius: 8px;
+        cursor: pointer;
+        text-decoration: none;
+        font-weight: bold;
+        transition: 0.3s;
+        display: inline-block;
+    }
+
+        .btn-custom:hover {
+            background: #8b5e3c;
+            transform: translateY(-2px);
+        }
+
+    .btn-group {
+        display: flex;
+        gap: 10px;
+    }
+
+    /* ANIMATION */
+    @@keyframes fadeIn {
+        from {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+</style>
+
+<div class="details-wrapper">
+    <div class="details-card">
+
+
+        <!-- IMAGE -->
+        <div class="details-img">
+            <img src="/images/products/@(Model.ProductID).jpg"
+                 loading="lazy"
+                 style="width:100%;height:200px;object-fit:cover;"
+                 onerror="this.onerror=null;this.src='/images/products/nophoto.png';" />
+        </div>
+
+        <!-- CONTENT -->
+        <div class="details-content">
+
+            <h2>@Model.ProductName</h2>
+
+            <div class="price">
+                @Model.Price.ToString("N0") VNĐ
+            </div>
+
+            <p class="desc">
+                @Model.ProductDescription
+            </p>
+
+            <div class="btn-group">
+                <a href="/Product" class="btn-custom">
+                    ← Quay lại
+                </a>
+
+                <a href="/Cart/Add/@Model.ProductID" class="btn-custom">
+                    🛒 Thêm vào giỏ hàng
+                </a>
+            </div>
+
+        </div>
+
+    </div>
+</div>

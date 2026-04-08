@@ -1,0 +1,174 @@
+﻿@model SV22T1020674.Models.Sales.OrderViewInfo
+@using SV22T1020674.Models.Sales
+
+@{
+    ViewBag.Title = "Chi tiết đơn hàng";
+}
+
+@section PageToolBar {
+    <div class="btn-group">
+        <button type="button"
+                class="btn btn-primary dropdown-toggle"
+                data-bs-toggle="dropdown">
+            <i class="bi bi-gear me-1"></i>
+            Xử lý đơn hàng
+        </button>
+
+        <ul class="dropdown-menu">
+
+            @if (Model.Status == OrderStatusEnum.New)
+            {
+                <li>
+                    <a class="dropdown-item"
+                           href="~/Order/Accept/@Model.OrderID">
+                        Duyệt đơn hàng
+                    </a>
+                </li>
+                <li>
+                    <a class="dropdown-item text-danger"
+                           href="~/Order/Reject/@Model.OrderID">
+                        Từ chối
+                    </a>
+                </li>
+            }
+
+            @if (Model.Status == OrderStatusEnum.Accepted)
+            {
+                <li>
+                    <a class="dropdown-item"
+                           href="~/Order/Shipping/@Model.OrderID">
+                        Giao hàng
+                    </a>
+                </li>
+                <li>
+                    <a class="dropdown-item text-danger"
+                           href="~/Order/Cancel/@Model.OrderID">
+                        Hủy đơn
+                    </a>
+                </li>
+            }
+
+            @if (Model.Status == OrderStatusEnum.Shipping)
+            {
+                <li>
+                    <a class="dropdown-item"
+                           href="~/Order/Finish/@Model.OrderID">
+                        Hoàn tất
+                    </a>
+                </li>
+            }
+
+        </ul>
+    </div>
+
+    <a href="~/Order/Delete/@Model.OrderID"
+           class="btn btn-danger ms-1">
+        <i class="bi bi-trash"></i> Xóa
+    </a>
+
+    <a href="~/Order"
+           class="btn btn-secondary ms-1">
+        <i class="bi bi-arrow-left"></i> Quay lại
+    </a>
+}
+
+<!-- TRẠNG THÁI -->
+<div class="alert alert-info mb-3">
+    <strong>Trạng thái:</strong> @Model.Status
+</div>
+
+<!-- THÔNG TIN ĐƠN -->
+<div class="card mb-3">
+    <div class="card-header fw-bold">Thông tin đơn hàng</div>
+    <div class="card-body">
+        <p><b>Mã đơn:</b> @Model.OrderID</p>
+        <p><b>Ngày lập:</b> @Model.OrderTime</p>
+        <p><b>Nhân viên:</b> @Model.EmployeeName</p>
+        <p><b>Ngày duyệt:</b> @Model.AcceptTime</p>
+    </div>
+</div>
+
+<!-- KHÁCH HÀNG -->
+<div class="card mb-3">
+    <div class="card-header fw-bold">Khách hàng</div>
+    <div class="card-body">
+        <p><b>Tên:</b> @Model.CustomerName</p>
+        <p><b>Điện thoại:</b> @Model.CustomerPhone</p>
+        <p><b>Email:</b> @Model.CustomerEmail</p>
+        <p><b>Địa chỉ:</b> @Model.CustomerAddress</p>
+    </div>
+</div>
+
+<!-- GIAO HÀNG -->
+<div class="card mb-3">
+    <div class="card-header fw-bold">Giao hàng</div>
+    <div class="card-body">
+        <p><b>Shipper:</b> @Model.ShipperName</p>
+        <p><b>SĐT:</b> @Model.ShipperPhone</p>
+        <p><b>Địa chỉ:</b> @Model.DeliveryAddress</p>
+    </div>
+</div>
+
+<!-- TỔNG TIỀN -->
+<div class="card mb-3">
+    <div class="card-body text-end">
+        <h5>
+            Tổng tiền:
+            <span class="text-danger">
+                @Model.TotalAmount.ToString("N0") VNĐ
+            </span>
+        </h5>
+    </div>
+</div>
+
+<!-- DANH SÁCH MẶT HÀNG -->
+<div class="card">
+    <div class="card-header fw-bold">
+        Danh sách mặt hàng
+    </div>
+
+    <div class="card-body p-1">
+        <table class="table table-bordered table-hover mb-0 align-middle">
+            <thead class="table-secondary">
+                <tr>
+                    <th>Mặt hàng</th>
+                    <th style="width:100px;">Số lượng</th>
+                    <th style="width:150px;">Giá</th>
+                    <th style="width:150px;">Thành tiền</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                @if (Model.Details != null && Model.Details.Count > 0)
+                {
+                    foreach (var item in Model.Details)
+                    {
+                        <tr>
+                            <td>@item.ProductName</td>
+
+                            <td class="text-center">
+                                @item.Quantity
+                            </td>
+
+                            <td class="text-end">
+                                @item.SalePrice.ToString("N0") VNĐ
+                            </td>
+
+                            <td class="text-end">
+                                @item.Total.ToString("N0") VNĐ
+                            </td>
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <tr>
+                        <td colspan="4" class="text-center text-muted">
+                            Không có dữ liệu
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

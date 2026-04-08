@@ -1,0 +1,140 @@
+﻿@model dynamic
+
+<style>
+    /* WRAPPER */
+    .order-detail-wrapper {
+        max-width: 900px;
+        margin: 40px auto;
+    }
+
+    /* TITLE */
+    .order-detail-title {
+        text-align: center;
+        color: #5a3e2b;
+        margin-bottom: 20px;
+    }
+
+    /* CARD */
+    .order-detail-card {
+        background: #fff;
+        padding: 20px;
+        border-radius: 15px;
+        box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+    }
+
+    /* INFO */
+    .order-info {
+        margin-bottom: 15px;
+        color: #5a3e2b;
+        font-weight: 500;
+    }
+
+        .order-info span {
+            font-weight: bold;
+            margin-right: 10px;
+        }
+
+    /* TABLE */
+    .order-detail-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 15px;
+    }
+
+        .order-detail-table th {
+            background: #f5f1e6;
+            color: #5a3e2b;
+            padding: 12px;
+            text-align: center;
+        }
+
+        .order-detail-table td {
+            padding: 12px;
+            text-align: center;
+            border-bottom: 1px solid #eee;
+        }
+
+        .order-detail-table tr:hover {
+            background: #faf7f0;
+        }
+
+    /* TOTAL */
+    .order-total {
+        text-align: right;
+        margin-top: 20px;
+        font-size: 18px;
+        font-weight: bold;
+        color: #5a3e2b;
+    }
+
+        .order-total span {
+            color: #c0392b;
+            font-size: 20px;
+        }
+    /* BUTTON */
+    .btn-custom {
+        background: linear-gradient(45deg, #c9a66b, #a67c52);
+        color: white;
+        border: none;
+        padding: 10px 18px;
+        border-radius: 8px;
+        cursor: pointer;
+        text-decoration: none;
+        font-weight: bold;
+        transition: 0.3s;
+        display: inline-block;
+    }
+
+        .btn-custom:hover {
+            background: #8b5e3c;
+            transform: translateY(-2px);
+        }
+
+    .btn-group {
+        display: flex;
+        gap: 10px;
+    }
+</style>
+
+<div class="order-detail-wrapper">
+
+    <h2 class="order-detail-title">📄 Chi tiết đơn hàng</h2>
+
+    <div class="order-detail-card">
+
+        <div class="order-info">
+            <span>Mã đơn:</span> @Model.OrderID
+        </div>
+
+        <div class="order-info">
+            <span>Ngày:</span> @Model.OrderTime
+        </div>
+
+        <table class="order-detail-table">
+            <tr>
+                <th>Sản phẩm</th>
+                <th>Số lượng</th>
+                <th>Giá</th>
+            </tr>
+
+            @foreach (var item in ViewBag.Details)
+            {
+                <tr>
+                    <td>@item.ProductName</td>
+                    <td>@item.Quantity</td>
+                    <td>@item.SalePrice.ToString("N0") đ</td>
+                </tr>
+            }
+        </table>
+
+        <div class="order-total">
+            💰 Tổng tiền:
+            <span>@ViewBag.Total.ToString("N0") VNĐ</span>
+        </div>
+
+    </div>
+    <a href="/Order/Index" class="btn-custom">
+        ← Quay lại
+    </a>
+
+</div>

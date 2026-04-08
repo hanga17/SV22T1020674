@@ -1,0 +1,135 @@
+﻿@model SV22T1020674.Models.Partner.Customer
+
+@{
+    ViewData["Title"] = "Chỉnh sửa hồ sơ";
+}
+
+<style>
+    body {
+        font-family: Arial;
+        background: #f5f1e6;
+    }
+
+    /* WRAPPER */
+    .edit-wrapper {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 85vh;
+    }
+
+    /* CARD */
+    .edit-card {
+        background: #fff;
+        padding: 35px;
+        width: 400px;
+        border-radius: 15px;
+        box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+        animation: fadeIn 0.5s ease;
+    }
+
+        .edit-card h3 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #5a3e2b;
+        }
+
+    /* FORM */
+    .edit-form label {
+        display: block;
+        margin-top: 10px;
+        font-weight: bold;
+        color: #5a3e2b;
+    }
+
+    .edit-form input {
+        width: 100%;
+        padding: 10px;
+        margin-top: 5px;
+        border-radius: 8px;
+        border: 1px solid #ccc;
+        transition: 0.3s;
+    }
+
+        .edit-form input:focus {
+            border-color: #c9a66b;
+            outline: none;
+            box-shadow: 0 0 5px rgba(201,166,107,0.5);
+        }
+
+    /* BUTTON */
+    .edit-form button {
+        width: 100%;
+        margin-top: 20px;
+        background: linear-gradient(45deg, #c9a66b, #a67c52);
+        color: white;
+        border: none;
+        padding: 12px;
+        border-radius: 8px;
+        cursor: pointer;
+        font-weight: bold;
+        transition: 0.3s;
+    }
+
+        .edit-form button:hover {
+            background: #8b5e3c;
+            transform: translateY(-2px);
+        }
+
+    /* BACK LINK */
+    .back-link {
+        text-align: center;
+        margin-top: 15px;
+    }
+
+        .back-link a {
+            color: #a67c52;
+            text-decoration: none;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+
+            .back-link a:hover {
+                color: #ffd700;
+            }
+
+    /* ANIMATION */
+    @@keyframes fadeIn {
+        from {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+</style>
+
+<div class="edit-wrapper">
+    <div class="edit-card">
+
+        <h3>Chỉnh sửa hồ sơ</h3>
+
+        <form method="post" class="edit-form">
+            <input type="hidden" asp-for="CustomerID" />
+
+            <label>Họ tên</label>
+            <input asp-for="CustomerName" />
+
+            <label>SĐT</label>
+            <input asp-for="Phone" />
+
+            <label>Địa chỉ</label>
+            <input asp-for="Address" />
+
+            <button type="submit">Cập nhật</button>
+
+            <div class="back-link">
+                <a href="/Account/Profile">← Quay lại hồ sơ</a>
+            </div>
+        </form>
+
+    </div>
+</div>
